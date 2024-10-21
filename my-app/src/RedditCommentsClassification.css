@@ -1,5 +1,8 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: "Comfortaa", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
     background-color: #f0e6f6;
     color: #333;
     margin: 0;
@@ -10,13 +13,24 @@ body {
     max-width: 800px;
     margin: 40px auto;
     padding: 20px;
-    background-color: #ffffff;
+    background-color: rgba(200, 200, 200, 0.4); /* Light grey */
+ /* Semi-transparent background */
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: rgba(200, 200, 200, 0.071); /* Light grey */
+ /* Semi-transparent background */
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
+    backdrop-filter: blur(50px); /* Optional: Blurs the content behind the container */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    box-shadow: 
+        0 4px 30px rgba(0, 0, 0, 0.353),
+        0 8px 32px rgba(255, 255, 255, 0.391),
+        inset 0 0 32px rgba(255, 255, 255, 0.2); /* Subtle inner glow */
+    border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 h1 {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
     color: #5a2d81;
     text-align: center;
     margin-bottom: 20px;
@@ -34,6 +48,10 @@ input[type="text"] {
 }
 
 button {
+    font-family: "Comfortaa", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
     padding: 12px 24px;
     background-color: #6a0d91;
     border: none;

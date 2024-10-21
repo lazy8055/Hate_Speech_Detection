@@ -4,6 +4,10 @@ body, html {
     padding: 0;
     height: 100%;
     width: 100%;
+    font-family: "Comfortaa", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
    
   }
   
@@ -43,6 +47,10 @@ body, html {
   }
   
   .home-cta-button {
+    font-family: "Comfortaa", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
     background-color: #ff6b00;
     color: white;
     padding: 12px 24px;

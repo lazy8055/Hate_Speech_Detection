@@ -1,5 +1,8 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: "Comfortaa", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
     background-color: #f0e6f6;
     color: #333;
     margin: 0;
@@ -14,7 +17,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 h1, h2 {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
     color: #5a2d81;
     text-align: center;
 }
