@@ -18,7 +18,7 @@ body {
 }
 h1, h2 {
     
-    color: #5a2d81;
+    color: black;
     text-align: center;
 }
 h1 {
@@ -44,5 +44,5 @@ img {
     text-align: center;
     margin-top: 30px;
     font-size: 1.1em;
-    color: #555;
+    color: black;
 }

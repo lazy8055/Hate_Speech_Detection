@@ -16,9 +16,9 @@ const MetricsDashboard = () => {
           <img src="bert_model_metrics.png" alt="BERT Model Metrics" />
         </div>
       </div>
-      
+      <h2>Confusion Matrices for Different Models</h2>
       <div className="confusion-matrix">
-        <h2>Confusion Matrices for Different Models</h2>
+        
         
         <h3>Random Forest</h3>
         <img src="confusion_matrix_rf.png" alt="Confusion Matrix - Random Forest" />

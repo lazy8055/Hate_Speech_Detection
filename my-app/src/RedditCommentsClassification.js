@@ -38,7 +38,9 @@ const RedditCommentsClassification = () => {
             ${data.comments_html}
           </div>
           <h3>Hate Speech Comments</h3>
+          <div class="scrollable-table">
           ${data.hate_speech_html}
+          </div>
         `);
         setPieChart(`
           <h3>Comments Distribution</h3>
@@ -84,7 +86,9 @@ const RedditCommentsClassification = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container" style={{ width: '60%',        // Reduce width of the container
+    maxWidth: '800px',    // Maximum width limit for responsiveness
+    minWidth: '400px',}}>
       <h1>Reddit Comments Classification</h1>
       <form onSubmit={handleSubmit}>
         <input

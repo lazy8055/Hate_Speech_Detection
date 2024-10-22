@@ -85,7 +85,9 @@ const UserCommentsClassification = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container"style={{ width: '60%',        // Reduce width of the container
+    maxWidth: '800px',    // Maximum width limit for responsiveness
+    minWidth: '400px',}}>
       <h1>Reddit User Comments Classification</h1>
       <form onSubmit={handleSubmit}>
         <input

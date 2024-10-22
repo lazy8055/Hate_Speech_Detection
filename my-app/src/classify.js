@@ -38,28 +38,31 @@ const Classify = () => {
   const handleAudioChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Handle audio file and convert speech to text
-      const reader = new FileReader();
-      reader.onload = () => {
-        const audio = new Audio(reader.result);
-        audio.play();
-
-        // Start speech recognition
-        SpeechRecognition.startListening({ continuous: false });
-        // Reset transcript before listening to new audio
-        resetTranscript();
-      };
-
-      reader.readAsDataURL(file);
+      const formData = new FormData();
+      formData.append('audio', file);
+  
+      fetch('http://127.0.0.1:5000/transcribe', {
+        method: 'POST',
+        body: formData,
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          setError(data.error);
+        } else {
+          setText(data.transcription); // Set the transcribed text
+          setError(null);
+        }
+      })
+      .catch(err => {
+        setError('An error occurred while processing the audio file.');
+        console.error(err);
+      });
     }
   };
 
   // Effect to update text with the recognized speech
-  React.useEffect(() => {
-    if (transcript) {
-      setText(transcript); // Update text state with recognized transcript
-    }
-  }, [transcript]);
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -110,7 +113,8 @@ const Classify = () => {
           value={text}
           onChange={(e) => setText(e.target.value)}
         ></textarea>
-
+        <br></br>
+        <br></br>
         <label htmlFor="model">Choose Model:</label>
         <select
           id="model"
@@ -123,7 +127,8 @@ const Classify = () => {
           <option value="Random Forest">Random Forest</option>
           <option value="BERT Model">BERT Model</option>
         </select>
-
+        <br></br>
+        <br></br>
         <label htmlFor="image">Upload Image:</label>
         <input
           type="file"
@@ -131,7 +136,8 @@ const Classify = () => {
           accept="image/*"
           onChange={handleImageChange}
         />
-
+<br></br>
+        <br></br>
         <label htmlFor="audio">Upload Audio:</label>
         <input
           type="file"
@@ -139,8 +145,14 @@ const Classify = () => {
           accept="audio/*"
           onChange={handleAudioChange}
         />
-
+<br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <div style={{display:'flex',justifyContent:'center'}}>
         <button type="submit">Classify</button>
+        </div>
+       
       </form>
 
       {error && <p className="error">{error}</p>}

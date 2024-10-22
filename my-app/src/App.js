@@ -20,6 +20,7 @@ function App() {
     <div className="App">
       <nav className="navbar">
         <div className="navbar-brand">Detoxify</div>
+        <div className="navbar-container">
         <div className="navbar-links">
           <a href="#home" onClick={() => navigateTo('Home')}>Home</a>
           <a href="#metrics" onClick={() => navigateTo('metrics')}>Metrics Dashboard</a>
@@ -29,6 +30,7 @@ function App() {
           <a href="#profilescore" onClick={() => navigateTo('profilescore')}>ProfileScore</a>
           
 
+        </div>
         </div>
       </nav>
 

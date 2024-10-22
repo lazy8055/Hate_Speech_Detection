@@ -4,7 +4,7 @@ body {
     font-weight: 700;
     font-style: normal;
     background-color: #f0e6f6;
-    color: #333;
+    color: #000000;
     margin: 0;
     padding: 0;
 }
@@ -27,9 +27,21 @@ body {
 }
 
 h1 {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #5a2d81;
+    
+    color: #000000;
     text-align: center;
+    margin-bottom: 20px;
+}
+
+h2
+{
+    color: #000000;
+}
+
+h3 {
+    color: #000000;
+    text-align: center;
+    font-size: 1.4em;
     margin-bottom: 20px;
 }
 
@@ -38,16 +50,16 @@ h1 {
     justify-content: space-around;
     flex-wrap: wrap;
     margin: 0 auto; /* Center the charts */
-    width: 95%; /* Slightly less than container width */
+    width: 60%; /* Slightly less than container width */
 }
 
 .chart {
-    width: 48%;
+    width: 20%;
     margin: 20px 0;
 }
 
 img {
-    max-width: 100%;
+    max-width: 20%;
     height: auto;
     border-radius: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -58,7 +70,7 @@ img {
     flex-wrap: wrap;
     justify-content: space-between;
     margin: 20px auto; /* Center the confusion matrix section */
-    width: 95%; /* Slightly less than container width */
+    width: 50%; /* Slightly less than container width */
 }
 
 .matrix-grid {
@@ -86,11 +98,7 @@ img {
     transform: translateY(-5px);
 }
 
-h3 {
-    text-align: center;
-    font-size: 1.4em;
-    margin-bottom: 20px;
-}
+
 
 /* Media query for larger screens */
 @media screen and (min-width: 1920px) {
