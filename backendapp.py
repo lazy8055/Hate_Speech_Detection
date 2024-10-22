@@ -66,7 +66,10 @@ models = {
 reddit = praw.Reddit(
     client_id='p1UJ6eY_nX5F6aF9KCo5TQ',
     client_secret='Jlx3BRJi4JvWrIyL-RKlJUy4wEu1pw',
-    user_agent='your_user_agent'
+    user_agent='your_user_agent',
+    username='Greedy-Direction-207',
+    password='hari2005$',
+    check_for_async=False  
 )
 
 @app.route('/')
@@ -230,6 +233,73 @@ def fetch_and_classify():
 
     except Exception as e:
         return jsonify({"error": str(e)})
+@app.route('/fetch_user_comments', methods=['POST'])
+def fetch_user_comments():
+    username = request.form.get('username')
+    try:
+        user = reddit.redditor(username)
+        comments = []
+        
+        # Fetch the most recent 100 user comments
+        for comment in user.comments.new(limit=100):
+            comments.append((comment.subreddit.display_name, comment.body))
 
+        if not comments:
+            return jsonify({"error": "No comments found for this user."})
+
+        df = pd.DataFrame(comments, columns=["Subreddit", "Comment"])
+        df["Comment Type"] = classify_comments(df["Comment"])
+        hate_speech_count = len(df[df["Comment Type"] == "Hate Speech"])
+        normal_count = len(df) - hate_speech_count
+        
+        pie_chart_img = plot_pie_chart(hate_speech_count, normal_count)
+        comments_html = df.to_html(classes='table', index=False)
+
+        return jsonify({"comments_html": comments_html, "pie_chart_img": pie_chart_img})
+
+    except Exception as e:
+        return jsonify({"error": str(e)})
+@app.route('/send_warning_message', methods=['POST'])
+def send_warning_message():
+    username = request.form.get('username')
+    message = request.form.get('message')
+    
+    try:
+        reddit.redditor(username).message('good', message)
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"error": str(e)})
+@app.route('/notify_all_hatespeech_users', methods=['POST'])
+def notify_all_hatespeech_users():
+    post_url = request.form.get('post_url')
+    try:
+        post_id = post_url.split('/')[-3]
+        post = reddit.submission(id=post_id)
+        post.comments.replace_more(limit=None)
+        comments = []
+        
+        # Fetch all comments and hate speech users
+        for comment in post.comments.list():
+            if isinstance(comment, praw.models.Comment) and comment.author:
+                comments.append((comment.author.name, comment.body))
+        
+        if not comments:
+            return jsonify({"error": "No comments found."})
+
+        df = pd.DataFrame(comments, columns=["Username", "Comment"])
+        df["Comment Type"] = classify_comments(df["Comment"])
+        hate_speech_df = df[df["Comment Type"] == "Hate Speech"]
+
+        # Send notification to all hate speech users
+        for _, row in hate_speech_df.iterrows():
+            username = row["Username"]
+            comment = row["Comment"]
+            message = f'Test message for project:You commented this comment "{comment}" under this post "{post_url}". Please be mindful of your comment.'
+            reddit.redditor(username).message('Reminder', message)
+
+        return jsonify({"success": True})
+
+    except Exception as e:
+        return jsonify({"error": str(e)})
 if __name__ == '__main__':
     app.run(debug=True)
