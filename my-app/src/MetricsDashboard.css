@@ -13,17 +13,17 @@ body {
     min-width: 1600px;
     margin: 40px auto;
     padding: 40px;
-    background-color: rgba(200, 200, 200, 0.071); /* Light grey */
- /* Semi-transparent background */
+    background-color: rgba(200, 200, 200, 0.071);
+
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
-    backdrop-filter: blur(50px); /* Optional: Blurs the content behind the container */
-    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(10px);
     box-shadow: 
         0 4px 30px rgba(0, 0, 0, 0.353),
         0 8px 32px rgba(255, 255, 255, 0.391),
-        inset 0 0 32px rgba(255, 255, 255, 0.2); /* Subtle inner glow */
-    border: 1px solid rgba(255, 255, 255, 0.18); /* Subtle border */
+        inset 0 0 32px rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 h1 {
@@ -49,8 +49,8 @@ h3 {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    margin: 0 auto; /* Center the charts */
-    width: 60%; /* Slightly less than container width */
+    margin: 0 auto;
+    width: 60%;
 }
 
 .chart {
@@ -69,8 +69,8 @@ img {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin: 20px auto; /* Center the confusion matrix section */
-    width: 50%; /* Slightly less than container width */
+    margin: 20px auto;
+    width: 50%;
 }
 
 .matrix-grid {
@@ -86,7 +86,7 @@ img {
 }
 
 .matrix-item img {
-    width: 600px; /* Fixed width */
+    width: 600px;
     height: auto;
     border-radius: 8px;
     box-shadow: 0 8px 16px rgba(85, 26, 139, 0.3),
@@ -100,7 +100,7 @@ img {
 
 
 
-/* Media query for larger screens */
+
 @media screen and (min-width: 1920px) {
     .container {
         width: 95%;
@@ -109,11 +109,11 @@ img {
     }
     
     .matrix-item img {
-        width: 800px; /* Larger matrices on big screens */
+        width: 800px;
     }
 }
 
-/* Media query for smaller screens */
+
 @media screen and (max-width: 1600px) {
     .container {
         width: 95%;

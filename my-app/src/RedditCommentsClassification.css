@@ -13,19 +13,19 @@ body {
     max-width: 800px;
     margin: 40px auto;
     padding: 20px;
-    background-color: rgba(200, 200, 200, 0.4); /* Light grey */
- /* Semi-transparent background */
+    background-color: rgba(200, 200, 200, 0.4);
+
     border-radius: 10px;
-    background-color: rgba(200, 200, 200, 0.071); /* Light grey */
- /* Semi-transparent background */
+    background-color: rgba(200, 200, 200, 0.071);
+
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
-    backdrop-filter: blur(50px); /* Optional: Blurs the content behind the container */
-    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(10px);
     box-shadow: 
         0 4px 30px rgba(0, 0, 0, 0.353),
         0 8px 32px rgba(255, 255, 255, 0.391),
-        inset 0 0 32px rgba(255, 255, 255, 0.2); /* Subtle inner glow */
+        inset 0 0 32px rgba(255, 255, 255, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
@@ -79,7 +79,7 @@ button:hover {
 }
 
 .scrollable-table {
-    max-height: 400px; /* Adjust height as needed */
+    max-height: 400px;
     overflow-y: auto;
     border: 1px solid #dcdcdc;
     border-radius: 6px;
@@ -87,7 +87,7 @@ button:hover {
     background-color: #f9f9f9;
 }
 
-/* New styles for the loading animation */
+
 .loading-container {
     display: flex;
     justify-content: center;
@@ -95,5 +95,5 @@ button:hover {
 }
 
 .loading-gif {
-    max-width: 1000px; /* Adjust size as needed */
+    max-width: 1000px;
 }

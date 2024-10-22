@@ -6,17 +6,17 @@ const RedditCommentsClassification = () => {
   const [commentsResult, setCommentsResult] = useState('');
   const [pieChart, setPieChart] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // State for loading
+  const [loading, setLoading] = useState(false); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Clear previous content
+    
     setCommentsResult('');
     setPieChart('');
     setError('');
     
-    setLoading(true); // Show loading animation
+    setLoading(true); 
     
     const formData = new FormData();
     formData.append('post_url', postUrl);
@@ -48,14 +48,14 @@ const RedditCommentsClassification = () => {
         `);
         setError('');
       }
-      setLoading(false); // Hide loading animation
+      setLoading(false); 
     })
     .catch(err => {
       console.error('Error:', err);
       setError('An error occurred while fetching the data.');
       setCommentsResult('');
       setPieChart('');
-      setLoading(false); // Hide loading animation
+      setLoading(false);
     });
   };
 
@@ -63,7 +63,7 @@ const RedditCommentsClassification = () => {
     const formData = new FormData();
     formData.append('post_url', postUrl);
     
-    setLoading(true); // Show loading animation
+    setLoading(true);
 
     fetch('http://127.0.0.1:5000/notify_all_hatespeech_users', {
       method: 'POST',
@@ -76,18 +76,18 @@ const RedditCommentsClassification = () => {
       } else {
         setError(data.error);
       }
-      setLoading(false); // Hide loading animation
+      setLoading(false); 
     })
     .catch(err => {
       console.error('Error:', err);
       setError('An error occurred while sending notifications.');
-      setLoading(false); // Hide loading animation
+      setLoading(false); 
     });
   };
 
   return (
-    <div className="container" style={{ width: '60%',        // Reduce width of the container
-    maxWidth: '800px',    // Maximum width limit for responsiveness
+    <div className="container" style={{ width: '60%',       
+    maxWidth: '800px',   
     minWidth: '400px',}}>
       <h1>Reddit Comments Classification</h1>
       <form onSubmit={handleSubmit}>

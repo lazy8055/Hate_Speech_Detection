@@ -7,16 +7,16 @@ const UserCommentsClassification = () => {
   const [pieChart, setPieChart] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [hateSpeechCount, setHateSpeechCount] = useState(0); // Track hate speech count
+  const [hateSpeechCount, setHateSpeechCount] = useState(0); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Clear previous content
+    
     setCommentsResult('');
     setPieChart('');
     setError('');
-    setHateSpeechCount(0); // Reset hate speech count
+    setHateSpeechCount(0); 
 
     setLoading(true);
 
@@ -45,8 +45,8 @@ const UserCommentsClassification = () => {
             <img src="data:image/png;base64,${data.pie_chart_img}" alt="Pie Chart" />
           `);
           
-          // Set the hate speech count based on the classified comments
-          setHateSpeechCount(data.hate_speech_count); // Assume the backend sends this count
+         
+          setHateSpeechCount(data.hate_speech_count); 
           setError('');
         }
         setLoading(false);
@@ -66,7 +66,7 @@ const UserCommentsClassification = () => {
     formData.append('username', username);
     formData.append('message', message);
 
-    fetch('http://127.0.0.1:5000/send_warning_message', { // Endpoint to send the message
+    fetch('http://127.0.0.1:5000/send_warning_message', { 
       method: 'POST',
       body: formData
     })
@@ -85,8 +85,8 @@ const UserCommentsClassification = () => {
   };
 
   return (
-    <div className="container"style={{ width: '60%',        // Reduce width of the container
-    maxWidth: '800px',    // Maximum width limit for responsiveness
+    <div className="container"style={{ width: '60%',      
+    maxWidth: '800px',    
     minWidth: '400px',}}>
       <h1>Reddit User Comments Classification</h1>
       <form onSubmit={handleSubmit}>

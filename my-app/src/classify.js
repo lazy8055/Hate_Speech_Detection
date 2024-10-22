@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Tesseract from 'tesseract.js'; // Import Tesseract.js for OCR
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'; // Import SpeechRecognition
+import Tesseract from 'tesseract.js'; 
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'; 
 import './classify.css';
 
 const Classify = () => {
@@ -8,26 +8,26 @@ const Classify = () => {
   const [model, setModel] = useState('Logistic Regression');
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false); // State for loading
-  const [image, setImage] = useState(null); // State for image
+  const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(null); 
 
-  // Speech recognition hook
+  
   const { transcript, resetTranscript } = useSpeechRecognition();
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setImage(file); // Set the image file
+      setImage(file); 
 
-      // Use Tesseract.js to extract text from the image
+      
       Tesseract.recognize(
         file,
         'eng',
         {
-          logger: (m) => console.log(m), // Optional: log progress
+          logger: (m) => console.log(m), 
         }
       ).then(({ data: { text } }) => {
-        setText(text); // Set extracted text in state
+        setText(text); 
       }).catch(err => {
         setError('Error extracting text from image.');
         console.error(err);
@@ -50,7 +50,7 @@ const Classify = () => {
         if (data.error) {
           setError(data.error);
         } else {
-          setText(data.transcription); // Set the transcribed text
+          setText(data.transcription);
           setError(null);
         }
       })
@@ -61,20 +61,20 @@ const Classify = () => {
     }
   };
 
-  // Effect to update text with the recognized speech
+  
 
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Clear previous result and error
+    
     setResult(null);
     setError(null);
 
-    setLoading(true); // Show loading animation
+    setLoading(true); 
 
     const formData = new FormData();
-    formData.append('text', text); // Use text state for classification
+    formData.append('text', text); 
     formData.append('model', model);
 
     fetch('http://127.0.0.1:5000/predict', {
@@ -90,12 +90,12 @@ const Classify = () => {
         setResult(data);
         setError(null);
       }
-      setLoading(false); // Hide loading animation
+      setLoading(false); 
     })
     .catch(err => {
       setError('An error occurred while processing the request.');
       setResult(null);
-      setLoading(false); // Hide loading animation
+      setLoading(false); 
     });
   };
 

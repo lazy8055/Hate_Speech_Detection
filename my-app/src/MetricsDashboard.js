@@ -1,5 +1,5 @@
 import React from 'react';
-import './MetricsDashboard.css'; // Assuming you move the styles to a separate CSS file
+import './MetricsDashboard.css'; 
 
 const MetricsDashboard = () => {
   return (

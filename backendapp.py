@@ -10,17 +10,20 @@ from io import BytesIO
 import praw
 import pandas as pd
 import matplotlib
-matplotlib.use('Agg')  # Use non-GUI backend for matplotlib
+from pydub import AudioSegment
+import io
+import speech_recognition as sr
+matplotlib.use('Agg')  
 
-# Flask app initialization
+
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)  
 
-# Initialize BERT model parameters
+
 MAX_LENGTH = 128
 class_names = ['Normal', 'Hate Speech']
 
-# Define a custom BERT model class
+
 class CustomBERTModel(tf.keras.Model):
     def __init__(self, bert_model, num_classes):
         super(CustomBERTModel, self).__init__()
@@ -34,27 +37,27 @@ class CustomBERTModel(tf.keras.Model):
         pooled_output = outputs.pooler_output
         return self.output_layer(pooled_output)
 
-# Initialize and load BERT model and tokenizer
+
 bert_model = TFBertModel.from_pretrained('bert-base-uncased')
 bert_custom_model = CustomBERTModel(bert_model, num_classes=2)
 dummy_inputs = {
     'input_ids': tf.constant([[0] * MAX_LENGTH]),
     'attention_mask': tf.constant([[0] * MAX_LENGTH])
 }
-bert_custom_model(dummy_inputs)  # Initialize the model
+bert_custom_model(dummy_inputs)  
 bert_custom_model.load_weights('bert_model_weights.h5')
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
-# Load traditional models
+
 lr_model = joblib.load('lr_model.pkl')
 dt_model = joblib.load('dt_model.pkl')
 rf_model = joblib.load('rf_model.pkl')
 vectorizer = joblib.load('vectorizer.pkl')
 
-# Load label encoder
+
 label_encoder = joblib.load('label_encoder.pkl')
 
-# Define the models dictionary
+
 models = {
     'Logistic Regression': lr_model,
     'Decision Tree': dt_model,
@@ -62,7 +65,7 @@ models = {
     'BERT Model': bert_custom_model
 }
 
-# Initialize Reddit API
+
 reddit = praw.Reddit(
     client_id='p1UJ6eY_nX5F6aF9KCo5TQ',
     client_secret='Jlx3BRJi4JvWrIyL-RKlJUy4wEu1pw',
@@ -116,19 +119,19 @@ def predict():
             predicted_class = tf.argmax(predictions, axis=1).numpy()[0]
             predicted_label = 'Normal' if predicted_class == 0 else 'Hate Speech'
             
-            # LIME explanation
+            
             from lime.lime_text import LimeTextExplainer
             explainer = LimeTextExplainer(class_names=class_names)
             explanation = explainer.explain_instance(text, lambda x: predict_proba_wrapper(x), num_features=10, num_samples=100)
             
-            # Plot the explanation
+            
             fig, ax = plt.subplots()
             exp_values = dict(explanation.as_list())
             colors = ['red' if val > 0 else 'green' for val in exp_values.values()]
             ax.barh(list(exp_values.keys()), list(exp_values.values()), color=colors)
             ax.set_title(f'Local explanation for class {predicted_label}')
             
-            # Convert plot to base64 string
+            
             buf = BytesIO()
             plt.savefig(buf, format='png')
             buf.seek(0)
@@ -142,25 +145,25 @@ def predict():
             return jsonify(response)
 
         else:
-            # For other models
+            
             input_vectorized = vectorizer.transform([text])
             model = models[model_name]
             prediction = model.predict(input_vectorized)
             predicted_label = class_names[prediction[0]]
             
-            # LIME explanation
+            
             from lime.lime_text import LimeTextExplainer
             explainer = LimeTextExplainer(class_names=class_names)
             explanation = explainer.explain_instance(text, lambda x: predict_proba_wrapper(x), num_features=10)
             
-            # Plot the explanation
+            
             fig, ax = plt.subplots()
             exp_values = dict(explanation.as_list())
             colors = ['red' if val > 0 else 'green' for val in exp_values.values()]
             ax.barh(list(exp_values.keys()), list(exp_values.values()), color=colors)
             ax.set_title(f'Local explanation for class {predicted_label}')
             
-            # Convert plot to base64 string
+            
             buf = BytesIO()
             plt.savefig(buf, format='png')
             buf.seek(0)
@@ -178,7 +181,7 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Function to classify comments
+
 def classify_comments(comments):
     encodings = tokenizer(
         comments.tolist(),
@@ -193,7 +196,7 @@ def classify_comments(comments):
     predicted_classes = tf.argmax(predictions, axis=1).numpy()
     return ["Hate Speech" if cls == 1 else "Normal" for cls in predicted_classes]
 
-# Function to plot a pie chart
+
 def plot_pie_chart(hate_speech_count, normal_count):
     fig, ax = plt.subplots()
     ax.pie([hate_speech_count, normal_count], labels=["Hate Speech", "Normal"], autopct='%1.1f%%', colors=['#ff9999', '#66b3ff'])
@@ -240,7 +243,7 @@ def fetch_user_comments():
         user = reddit.redditor(username)
         comments = []
         
-        # Fetch the most recent 100 user comments
+        
         for comment in user.comments.new(limit=100):
             comments.append((comment.subreddit.display_name, comment.body))
 
@@ -278,7 +281,7 @@ def notify_all_hatespeech_users():
         post.comments.replace_more(limit=None)
         comments = []
         
-        # Fetch all comments and hate speech users
+        
         for comment in post.comments.list():
             if isinstance(comment, praw.models.Comment) and comment.author:
                 comments.append((comment.author.name, comment.body))
@@ -290,7 +293,7 @@ def notify_all_hatespeech_users():
         df["Comment Type"] = classify_comments(df["Comment"])
         hate_speech_df = df[df["Comment Type"] == "Hate Speech"]
 
-        # Send notification to all hate speech users
+        
         for _, row in hate_speech_df.iterrows():
             username = row["Username"]
             comment = row["Comment"]
@@ -301,5 +304,35 @@ def notify_all_hatespeech_users():
 
     except Exception as e:
         return jsonify({"error": str(e)})
+@app.route('/transcribe', methods=['POST'])
+def transcribe_audio():
+    if 'audio' not in request.files:
+        return jsonify({'error': 'No audio file provided'}), 400
+
+    audio_file = request.files['audio']
+
+    
+    try:
+        audio_data = audio_file.read()
+        audio_segment = AudioSegment.from_file(io.BytesIO(audio_data))
+        audio_wav = io.BytesIO()
+        audio_segment.export(audio_wav, format="wav")
+        audio_wav.seek(0)  
+    except Exception as e:
+        return jsonify({'error': f'Error processing audio file: {str(e)}'}), 500
+
+    
+    recognizer = sr.Recognizer()
+    with sr.AudioFile(audio_wav) as source:
+        audio = recognizer.record(source)
+
+    try:
+        
+        transcription = recognizer.recognize_google(audio)
+        return jsonify({'transcription': transcription})
+    except sr.UnknownValueError:
+        return jsonify({'error': 'Unable to transcribe audio'}), 500
+    except sr.RequestError:
+        return jsonify({'error': 'API request failed'}), 500
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,5 +1,5 @@
 import React from 'react';
-import './ModelArchitecture.css'; // Assuming you move the styles to a separate CSS file
+import './ModelArchitecture.css'; 
 
 const ModelArchitecture = () => {
   return (
