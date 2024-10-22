@@ -24,9 +24,9 @@ const Home = ({ onNavigate }) => {
     <div className="home-page">
       <div id="vanta-background"></div>
       <div className="home-content">
-        <h1 style={{ color: 'white' }}>AI Assistant for Developers</h1>
-        <p style={{ color: 'white' }}>
-          Boost your productivity with our AI tool. Experience the power of AI-assisted coding and automated testing.
+        <h1 style={{ color: 'white' }}>Welcome to Detoxify!</h1>
+        <p style={{ color: 'white',fontSize: '1.5em' }}>
+        Hate Speech Detection powered by AI, enhancing user safety and awareness through Explainable AI for transparent and accountable decision-making
         </p>
         <button className="home-cta-button" onClick={() => onNavigate('classify')}>Get started</button>
       </div>

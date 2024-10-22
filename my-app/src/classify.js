@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Tesseract from 'tesseract.js'; // Import Tesseract.js for OCR
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'; // Import SpeechRecognition
 import './classify.css';
 
 const Classify = () => {
@@ -7,6 +9,57 @@ const Classify = () => {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false); // State for loading
+  const [image, setImage] = useState(null); // State for image
+
+  // Speech recognition hook
+  const { transcript, resetTranscript } = useSpeechRecognition();
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImage(file); // Set the image file
+
+      // Use Tesseract.js to extract text from the image
+      Tesseract.recognize(
+        file,
+        'eng',
+        {
+          logger: (m) => console.log(m), // Optional: log progress
+        }
+      ).then(({ data: { text } }) => {
+        setText(text); // Set extracted text in state
+      }).catch(err => {
+        setError('Error extracting text from image.');
+        console.error(err);
+      });
+    }
+  };
+
+  const handleAudioChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Handle audio file and convert speech to text
+      const reader = new FileReader();
+      reader.onload = () => {
+        const audio = new Audio(reader.result);
+        audio.play();
+
+        // Start speech recognition
+        SpeechRecognition.startListening({ continuous: false });
+        // Reset transcript before listening to new audio
+        resetTranscript();
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Effect to update text with the recognized speech
+  React.useEffect(() => {
+    if (transcript) {
+      setText(transcript); // Update text state with recognized transcript
+    }
+  }, [transcript]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -18,7 +71,7 @@ const Classify = () => {
     setLoading(true); // Show loading animation
 
     const formData = new FormData();
-    formData.append('text', text);
+    formData.append('text', text); // Use text state for classification
     formData.append('model', model);
 
     fetch('http://127.0.0.1:5000/predict', {
@@ -70,6 +123,22 @@ const Classify = () => {
           <option value="Random Forest">Random Forest</option>
           <option value="BERT Model">BERT Model</option>
         </select>
+
+        <label htmlFor="image">Upload Image:</label>
+        <input
+          type="file"
+          id="image"
+          accept="image/*"
+          onChange={handleImageChange}
+        />
+
+        <label htmlFor="audio">Upload Audio:</label>
+        <input
+          type="file"
+          id="audio"
+          accept="audio/*"
+          onChange={handleAudioChange}
+        />
 
         <button type="submit">Classify</button>
       </form>

@@ -57,6 +57,32 @@ const RedditCommentsClassification = () => {
     });
   };
 
+  const handleNotifyAll = () => {
+    const formData = new FormData();
+    formData.append('post_url', postUrl);
+    
+    setLoading(true); // Show loading animation
+
+    fetch('http://127.0.0.1:5000/notify_all_hatespeech_users', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert('All hate speech commenters have been notified.');
+      } else {
+        setError(data.error);
+      }
+      setLoading(false); // Hide loading animation
+    })
+    .catch(err => {
+      console.error('Error:', err);
+      setError('An error occurred while sending notifications.');
+      setLoading(false); // Hide loading animation
+    });
+  };
+
   return (
     <div className="container">
       <h1>Reddit Comments Classification</h1>
@@ -76,6 +102,10 @@ const RedditCommentsClassification = () => {
 
       <div id="comments-result" className="result" dangerouslySetInnerHTML={{ __html: commentsResult }}></div>
       <div id="pie-chart" className="result" dangerouslySetInnerHTML={{ __html: pieChart }}></div>
+
+      {commentsResult && (
+        <button onClick={handleNotifyAll} disabled={loading || !commentsResult}>Notify All</button>
+      )}
       
       {loading && (
         <div className="loading-container">
