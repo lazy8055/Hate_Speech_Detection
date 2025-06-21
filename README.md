@@ -29,7 +29,6 @@ An AI-powered web application for detecting hate speech in social media posts us
 - **Backend**: Flask
 - **Machine Learning**: TensorFlow, scikit-learn, BERT, LIME
 - **Models Used**: Logistic Regression, Decision Tree, Random Forest, BERT
-- **Audio Processing**: [Mention API/tool used like AssemblyAI, SpeechRecognition, etc.]
 - **Reddit Integration**: PRAW (Python Reddit API Wrapper)
 
 ---
