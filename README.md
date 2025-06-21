@@ -1,70 +1,113 @@
-# Getting Started with Create React App
+# 🛑 Hate Speech Detection Web App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An AI-powered web application for detecting hate speech in social media posts using text and audio input. Supports multi-model classification (Logistic Regression, Random Forest, Decision Tree, BERT) and includes explainable AI with LIME. Also integrates with Reddit API for large-scale community analysis.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+- 🔤 **Multi-input Support**: Classifies text or audio (converted to text) to detect hate speech.
+- 🧠 **ML Model Pipeline**:
+  - Logistic Regression
+  - Decision Tree
+  - Random Forest
+  - BERT (achieved highest accuracy: _97.8%_)
+- 🧾 **Explainable AI**:
+  - Uses **LIME** to highlight influential words driving classification decisions.
+- 🛠️ **Reddit Integration**:
+  - Analyze **all comments from a Reddit post** to flag hateful users and comments.
+  - **Send DMs** to users identified as posting hate speech.
+  - Analyze all past comments of a **Reddit username** and generate:
+    - Comment-wise classifications.
+    - **Hate Speech % vs Total Comments** graph.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🧰 Tech Stack
 
-### `npm test`
+- **Frontend**: React
+- **Backend**: Flask
+- **Machine Learning**: TensorFlow, scikit-learn, BERT, LIME
+- **Models Used**: Logistic Regression, Decision Tree, Random Forest, BERT
+- **Audio Processing**: [Mention API/tool used like AssemblyAI, SpeechRecognition, etc.]
+- **Reddit Integration**: PRAW (Python Reddit API Wrapper)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 📊 Model Performance
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<details>
+<summary>🔎 Click to view Confusion Matrix Comparison</summary>
+<br>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<table>
+  <tr>
+    <th>Logistic Regression</th>
+    <th>Decision Tree</th>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/792e6766-039f-49ce-a91b-fe92dea59630" width="300"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/eeb3e525-d369-41d9-ae1b-bc612118e759" width="300"/>
+    </td>
+  </tr>
+  <tr>
+    <th>Random Forest</th>
+    <th>BERT Model</th>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/373dcc7f-90ef-4dcb-80d4-58622fcfaef1" width="300"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/4f3d34ae-6ebe-4ccb-b592-d1f16464b969" width="300"/>
+    </td>
+  </tr>
+</table>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+</details>
 
-### `npm run eject`
+### Metrics(Accuracy, Precision, Recall, F1 score and Specificity):
+Logistic Regression, Decision Tree, Random Forest:
+![traditional_models_metrics](https://github.com/user-attachments/assets/63e3e1d1-8478-480e-8422-dccee74a22aa)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+BERT:
+![bert_model_metrics](https://github.com/user-attachments/assets/bc01ffb7-a010-4a2d-8a7a-707911faf3b7)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 🏗️ Architecture
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Overall Architecture
+![Untitled Diagram drawio(3)](https://github.com/user-attachments/assets/f8f482d8-533f-4ad5-96cb-573c724d2c8f)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Model Prediction and Explainable AI(LIME)
+![Untitled Diagram drawio(5)](https://github.com/user-attachments/assets/1b685ed8-d060-4956-a548-3819c511bace)
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🖼️ Screenshots
 
-### Making a Progressive Web App
+<details>
+<summary>🔎 Click to view sample outputs</summary>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Hate Speech Detection & LIME Analysis
+![hate_detect_page](https://github.com/user-attachments/assets/84ffa827-8bc8-4e1f-ab47-51e2965d362b)
 
-### Advanced Configuration
+### Reddit API Intergration
+![Reddit_comment_page](https://github.com/user-attachments/assets/6a7347bf-b5de-4675-9a0f-50e1881889f5)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+![Reddit _user_page](https://github.com/user-attachments/assets/e63b9a48-e38b-47ad-8fcd-55bdfcd5e868)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+</details>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
